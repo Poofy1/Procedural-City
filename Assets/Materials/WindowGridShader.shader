@@ -3,8 +3,9 @@ Shader "Custom/WindowGridShader" {
         _LitWindowColor ("Lit Window Color", Color) = (1, 1, 1, 1)
         _UnlitWindowColor ("Unlit Window Color", Color) = (0, 0, 0, 1)
         _WindowSize ("Window Size", Range(0, 1)) = 0.1
-        _WindowSpacing ("Window Spacing", Range(0, .1)) = 0.02
+        _WindowSpacing ("Window Spacing", Range(0, .5)) = 0.02
         _LitWindowProbability ("Lit Window Probability", Range(0, 1)) = 0.2
+        _AntialiasingAmount ("Antialiasing Amount", Range(0, 20)) = 1
     }
 
     SubShader {
@@ -14,12 +15,12 @@ Shader "Custom/WindowGridShader" {
         CGPROGRAM
         #pragma surface surf Lambert
 
-        sampler2D _MainTex;
         float _WindowSize;
         float _WindowSpacing;
         float _LitWindowProbability;
         float4 _LitWindowColor;
         float4 _UnlitWindowColor;
+        float _AntialiasingAmount;
 
         struct Input {
             float2 uv_MainTex;
@@ -33,7 +34,16 @@ Shader "Custom/WindowGridShader" {
         void surf (Input IN, inout SurfaceOutput o) {
             float2 uv = IN.uv_MainTex;
             float2 gridPos = fmod(uv, _WindowSize + _WindowSpacing);
-            float mask = step(_WindowSpacing, gridPos.x) * step(_WindowSpacing, gridPos.y);
+
+            // Calculate antialiasing width based on distance
+            float aaWidth = fwidth(uv) * _WindowSpacing * _AntialiasingAmount * 0.5;
+
+            // Apply antialiasing using smoothstep function
+            float maskX = smoothstep(_WindowSpacing - aaWidth, _WindowSpacing, gridPos.x) *
+                          (1.0 - smoothstep(_WindowSize, _WindowSize + aaWidth, gridPos.x));
+            float maskY = smoothstep(_WindowSpacing - aaWidth, _WindowSpacing, gridPos.y) *
+                          (1.0 - smoothstep(_WindowSize, _WindowSize + aaWidth, gridPos.y));
+            float mask = maskX * maskY;
 
             // Calculate the cell coordinates
             float2 cellCoord = floor(uv / (_WindowSize + _WindowSpacing));

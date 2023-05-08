@@ -5,10 +5,11 @@ public class CityGenerator : MonoBehaviour
 {
     public GameObject roadPrefab;
     public Material buildingMaterial;
+    public Material lowHeightBuildingMaterial; // Add new material for low height buildings
     public Material roofMaterial;
     public int cityWidth = 10;
     public int cityLength = 10;
-    
+
     public int buildingSize = 5;
     public int buildingMax = 10;
     public int buildingMin = 2;
@@ -17,9 +18,9 @@ public class CityGenerator : MonoBehaviour
 
     public int blockWidth = 5;
     public int blockLength = 5;
-    
-    
+
     public float roofTextureScale = 1;
+    public float heightThreshold = 4; // Add new height threshold field
 
     private void Start()
     {
@@ -162,7 +163,15 @@ public class CityGenerator : MonoBehaviour
 
         mesh.RecalculateNormals();
 
-        meshRenderer.materials = new Material[] { buildingMaterial, roofMaterial };
+        // Apply the new material if the height is below the threshold
+        if (height < heightThreshold)
+        {
+            meshRenderer.materials = new Material[] { lowHeightBuildingMaterial, roofMaterial };
+        }
+        else
+        {
+            meshRenderer.materials = new Material[] { buildingMaterial, roofMaterial };
+        }
 
         return building;
     }

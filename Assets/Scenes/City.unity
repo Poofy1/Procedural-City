@@ -419,6 +419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roadPrefab: {fileID: 5005676022326717156, guid: 6512d6aeb5cbf2b469137227f268f504, type: 3}
   buildingMaterial: {fileID: 2100000, guid: 8cbbba6795692a54787054684b9b6974, type: 2}
+  lowHeightBuildingMaterial: {fileID: 2100000, guid: 02e1ad946fd079543bcd76b0e1c9a4d8, type: 2}
   roofMaterial: {fileID: 2100000, guid: 3bb2b484de4b1884eb076e67fed1731b, type: 2}
   cityWidth: 20
   cityLength: 20
@@ -429,6 +430,7 @@ MonoBehaviour:
   blockWidth: 2
   blockLength: 8
   roofTextureScale: 1
+  heightThreshold: 20
 --- !u!4 &1587029973
 Transform:
   m_ObjectHideFlags: 0

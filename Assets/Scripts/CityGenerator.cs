@@ -14,7 +14,8 @@ public class CityGenerator : MonoBehaviour
     public int buildingMax = 10;
     public int buildingMin = 2;
 
-    public float heightFrequency = 0.1f;
+    public float heightFrequency = 0.005f;
+    public float heightFrequency_small = 0.1f;
 
     public int blockWidth = 5;
     public int blockLength = 5;
@@ -43,7 +44,8 @@ public class CityGenerator : MonoBehaviour
                     {
                         Vector3 buildingPosition = new Vector3(roadPosition.x + (block_x * buildingSize) + 2f, 0, roadPosition.z + (block_y * buildingSize) + 2f);
                         float perlinValue = Mathf.PerlinNoise(buildingPosition.x * heightFrequency, buildingPosition.z * heightFrequency);
-                        perlinValue = Mathf.Pow(perlinValue, 4);
+                        float perlinValue2 = Mathf.PerlinNoise(buildingPosition.x * heightFrequency_small, buildingPosition.z * heightFrequency_small);
+                        perlinValue = Mathf.Pow(perlinValue, 4) + Mathf.Pow(perlinValue2, 6);
                         int buildingHeight = Mathf.FloorToInt(Mathf.Lerp(buildingMin, buildingMax, perlinValue));
                         GameObject building = CreateBuilding(buildingSize - 1, buildingSize - 1, buildingHeight);
                         building.transform.position = buildingPosition;

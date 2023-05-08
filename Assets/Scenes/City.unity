@@ -250,12 +250,12 @@ MonoBehaviour:
   buildingMaterial: {fileID: 2100000, guid: 8cbbba6795692a54787054684b9b6974, type: 2}
   cityWidth: 30
   cityLength: 30
-  buildingSize: 5
-  buildingMax: 50
+  buildingSize: 7
+  buildingMax: 75
   buildingMin: 5
-  blockWidth: 3
-  blockLength: 4
-  roadWidth: 5
+  heightFrequency: 0.075
+  blockWidth: 2
+  blockLength: 8
 --- !u!4 &1587029973
 Transform:
   m_ObjectHideFlags: 0

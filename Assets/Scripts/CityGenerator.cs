@@ -10,10 +10,11 @@ public class CityGenerator : MonoBehaviour
     public int buildingSize = 5;
     public int buildingMax = 10;
     public int buildingMin = 2;
-    
+
+    public float heightFrequency = 0.1f;
+
     public int blockWidth = 5;
     public int blockLength = 5;
-    public int roadWidth = 5;
 
     private void Start()
     {
@@ -22,7 +23,6 @@ public class CityGenerator : MonoBehaviour
 
     private void GenerateCity()
     {
-
         for (int x = 0; x < cityWidth; x++)
         {
             for (int z = 0; z < cityLength; z++)
@@ -31,23 +31,23 @@ public class CityGenerator : MonoBehaviour
                 GameObject roadInstance = Instantiate(roadPrefab, roadPosition, Quaternion.identity);
                 roadInstance.transform.SetParent(transform);
 
-                
                 for (int block_x = 0; block_x < blockWidth; block_x++)
                 {
                     for (int block_y = 0; block_y < blockLength; block_y++)
                     {
-                        int randomBuildingHeight = Mathf.FloorToInt(Mathf.Lerp(buildingMin, buildingMax, Mathf.Pow(Random.value, 5)));
                         Vector3 buildingPosition = new Vector3(roadPosition.x + (block_x * buildingSize) + 2f, 0, roadPosition.z + (block_y * buildingSize) + 2f);
-                        GameObject building = CreateBuilding(buildingSize - 1,buildingSize - 1, randomBuildingHeight);
+                        float perlinValue = Mathf.PerlinNoise(buildingPosition.x * heightFrequency, buildingPosition.z * heightFrequency);
+                        perlinValue = Mathf.Pow(perlinValue, 4);
+                        int buildingHeight = Mathf.FloorToInt(Mathf.Lerp(buildingMin, buildingMax, perlinValue));
+                        GameObject building = CreateBuilding(buildingSize - 1, buildingSize - 1, buildingHeight);
                         building.transform.position = buildingPosition;
                         building.transform.SetParent(transform);
                     }
                 }
-
             }
         }
     }
-
+    
     private GameObject CreateBuilding(float width, float length, float height)
     {
         GameObject building = new GameObject("Building");

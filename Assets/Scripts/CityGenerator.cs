@@ -1,9 +1,11 @@
+using System.Linq;
 using UnityEngine;
 
 public class CityGenerator : MonoBehaviour
 {
     public GameObject roadPrefab;
     public Material buildingMaterial;
+    public Material roofMaterial;
     public int cityWidth = 10;
     public int cityLength = 10;
     
@@ -15,6 +17,9 @@ public class CityGenerator : MonoBehaviour
 
     public int blockWidth = 5;
     public int blockLength = 5;
+    
+    
+    public float roofTextureScale = 1;
 
     private void Start()
     {
@@ -57,40 +62,107 @@ public class CityGenerator : MonoBehaviour
         Mesh mesh = new Mesh();
         meshFilter.mesh = mesh;
 
-        Vector3[] vertices = new Vector3[8]
+        Vector3[] vertices = new Vector3[16]
         {
-            new Vector3(0, 0, 0),
+            new Vector3(0, 0, 0),         // Front
             new Vector3(width, 0, 0),
+            new Vector3(width, height, 0),
+            new Vector3(0, height, 0),
+
+            new Vector3(width, 0, 0),     // Right
             new Vector3(width, 0, length),
+            new Vector3(width, height, length),
+            new Vector3(width, height, 0),
+
+            new Vector3(width, 0, length), // Back
             new Vector3(0, 0, length),
+            new Vector3(0, height, length),
+            new Vector3(width, height, length),
+
+            new Vector3(0, 0, length),    // Left
+            new Vector3(0, 0, 0),
+            new Vector3(0, height, 0),
+            new Vector3(0, height, length)
+        };
+        
+        Vector3[] roofVertices = new Vector3[4]
+        {
             new Vector3(0, height, 0),
             new Vector3(width, height, 0),
             new Vector3(width, height, length),
             new Vector3(0, height, length)
         };
 
-        mesh.vertices = vertices;
+        mesh.vertices = vertices.Concat(roofVertices).ToArray();
+        
+        Vector2[] uv = new Vector2[20];
 
-        int[] triangles = new int[]
+        // Front face
+        uv[0] = new Vector2(0, 0);
+        uv[1] = new Vector2(1, 0);
+        uv[2] = new Vector2(1, height);
+        uv[3] = new Vector2(0, height);
+
+        // Right face
+        uv[4] = new Vector2(0, 0);
+        uv[5] = new Vector2(1, 0);
+        uv[6] = new Vector2(1, height);
+        uv[7] = new Vector2(0, height);
+
+        // Back face
+        uv[8] = new Vector2(0, 0);
+        uv[9] = new Vector2(1, 0);
+        uv[10] = new Vector2(1, height);
+        uv[11] = new Vector2(0, height);
+
+        // Left face
+        uv[12] = new Vector2(0, 0);
+        uv[13] = new Vector2(1, 0);
+        uv[14] = new Vector2(1, height);
+        uv[15] = new Vector2(0, height);
+        
+        // Roof UV mapping
+        uv[16] = new Vector2(0, 0);
+        uv[17] = new Vector2(roofTextureScale, 0);
+        uv[18] = new Vector2(roofTextureScale, roofTextureScale);
+        uv[19] = new Vector2(0, roofTextureScale);
+        
+        for (int i = 0; i < uv.Length; i++) {
+            if (i < 4 || (i >= 8 && i < 12)) {
+                uv[i].x *= width;
+            } else {
+                uv[i].x *= length;
+            }
+        }
+
+        mesh.uv = uv;
+        
+
+        int[] buildingTriangles = new int[]
         {
-            0, 1, 2, // Bottom
-            0, 2, 3,
-            4, 6, 5, // Top
-            4, 7, 6,
-            0, 5, 1, // Front
-            0, 4, 5,
-            1, 6, 2, // Right
-            1, 5, 6,
-            2, 7, 3, // Back
-            2, 6, 7,
-            3, 4, 0, // Left
-            3, 7, 4
+            3, 1, 0, // Front
+            3, 2, 1,
+            4, 7, 5, // Right
+            5, 7, 6,
+            11, 9, 8, // Back
+            11, 10, 9,
+            12, 15, 13, // Left
+            13, 15, 14
         };
 
-        mesh.triangles = triangles;
+        int[] roofTriangles = new int[]
+        {
+            16, 18, 17, // Top
+            16, 19, 18
+        };
+
+        mesh.subMeshCount = 2;
+        mesh.SetTriangles(buildingTriangles, 0);
+        mesh.SetTriangles(roofTriangles, 1);
+
         mesh.RecalculateNormals();
 
-        meshRenderer.material = buildingMaterial;
+        meshRenderer.materials = new Material[] { buildingMaterial, roofMaterial };
 
         return building;
     }

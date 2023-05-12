@@ -656,7 +656,7 @@ Material:
     - _AnisoReplace: 0
     - _AnisoUseBaseColor: 0
     - _AnisoUseLightColor: 1
-    - _AntialiasingAmount: 20
+    - _AntialiasingAmount: 0
     - _Ap_Rim2Light_FeatherOff: 0
     - _Ap_Rim2Light_Power: 0.1
     - _Ap_RimLight_FeatherOff: 0
@@ -1657,7 +1657,7 @@ Material:
     - _LightingVertexLightingEnabled: 1
     - _LightingWrappedNormalization: 0
     - _LightingWrappedWrap: 0
-    - _LitWindowProbability: 0.036
+    - _LitWindowProbability: 0.075
     - _LockTooltip: 0
     - _MainALHueShiftBand: 0
     - _MainALHueShiftCTIndex: 0
@@ -2339,8 +2339,8 @@ Material:
     - _WindowAspectRatio: 0.683
     - _WindowGlossiness: 0
     - _WindowReflectivity: 0.893
-    - _WindowSize: 0.663
-    - _WindowSpacing: 0.046
+    - _WindowSize: 0.64
+    - _WindowSpacing: 0.017
     - _Wriggle: 0
     - _WriggleSpeed: 0.28
     - _ZTest: 4

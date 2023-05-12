@@ -381,7 +381,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1418111874}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 203.32013, y: 43.683346, z: 178.13676}
+  m_LocalPosition: {x: 332.8, y: 63.34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -422,8 +422,8 @@ MonoBehaviour:
   buildingMaterial: {fileID: 2100000, guid: 8cbbba6795692a54787054684b9b6974, type: 2}
   lowHeightBuildingMaterial: {fileID: 2100000, guid: 02e1ad946fd079543bcd76b0e1c9a4d8, type: 2}
   roofMaterial: {fileID: 2100000, guid: 3bb2b484de4b1884eb076e67fed1731b, type: 2}
-  cityWidth: 20
-  cityLength: 20
+  cityWidth: 50
+  cityLength: 50
   blockWidth: 2
   blockLength: 8
   heightFrequency: 0.05
@@ -431,7 +431,6 @@ MonoBehaviour:
   buildingSize: 5
   buildingMax: 75
   buildingMin: 5
-  roofTextureScale: 1
   skyScraperThreshold: 20
   car: {fileID: 7261061032923592605, guid: c6569a9091fc26e41979082796530499, type: 3}
   carAmount: 1000

@@ -1624,7 +1624,7 @@ Material:
     - _LightingAdditiveMonochromatic: 0
     - _LightingAdditivePassthrough: 0.5
     - _LightingAdditiveType: 0
-    - _LightingCap: 1
+    - _LightingCap: 0.63
     - _LightingCapEnabled: 1
     - _LightingCastedShadows: 0
     - _LightingColorMode: 0
@@ -2576,7 +2576,7 @@ Material:
     - m_start_Matcap4: 0
     - m_start_PathAudioLink: 0
     - m_start_PoiLightData: 0
-    - m_start_PoiShading: 1
+    - m_start_PoiShading: 0
     - m_start_RGBAColors: 0
     - m_start_RGBMask: 0
     - m_start_Rim2AudioLink: 0
@@ -2749,7 +2749,7 @@ Material:
     - _ClearCoatSpecularTint: {r: 1, g: 1, b: 1, a: 1}
     - _ClippingMaskPan: {r: 0, g: 0, b: 0, a: 0}
     - _ClothMetallicSmoothnessMapPan: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 0.11320752, g: 0.11320752, b: 0.11320752, a: 1}
+    - _Color: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
     - _CubeMapColor: {r: 1, g: 1, b: 1, a: 1}
     - _CubeMapMaskPan: {r: 0, g: 0, b: 0, a: 0}
     - _CubeMapRotation: {r: 0, g: 0, b: 0, a: 0}
@@ -2899,7 +2899,7 @@ Material:
     - _LightingAOMapsPan: {r: 0, g: 0, b: 0, a: 0}
     - _LightingDetailShadowMapsPan: {r: 0, g: 0, b: 0, a: 0}
     - _LightingForcedColor: {r: 1, g: 1, b: 1, a: 1}
-    - _LightingShadowColor: {r: 1, g: 1, b: 1, a: 1}
+    - _LightingShadowColor: {r: 0.41509432, g: 0.41509432, b: 0.41509432, a: 1}
     - _LightingShadowMasksPan: {r: 0, g: 0, b: 0, a: 0}
     - _LightngForcedDirection: {r: 0, g: 0, b: 0, a: 1}
     - _MainColorAdjustTexturePan: {r: 0, g: 0, b: 0, a: 0}

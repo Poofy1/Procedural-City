@@ -28,9 +28,9 @@ public class CityGenerator : MonoBehaviour
     public int buildingMax = 75;
     public int buildingMin = 5;
     public float skyScraperThreshold = 4;
-    private List<MeshFilter> buildingMeshFilters_small;
-    private List<MeshFilter> buildingMeshFilters_tall;
-    private List<MeshFilter> roofMeshFilters;
+    private List<CombineInstance> buildingMeshFilters_small;
+    private List<CombineInstance> buildingMeshFilters_tall;
+    private List<CombineInstance> roofMeshFilters;
 
     [Header("Car Config")] 
     public GameObject car;
@@ -51,9 +51,9 @@ public class CityGenerator : MonoBehaviour
     private void GenerateCity()
     {
         
-        buildingMeshFilters_small = new List<MeshFilter>();
-        buildingMeshFilters_tall = new List<MeshFilter>();
-        roofMeshFilters = new List<MeshFilter>();
+        buildingMeshFilters_small = new List<CombineInstance>();
+        buildingMeshFilters_tall = new List<CombineInstance>();
+        roofMeshFilters = new List<CombineInstance>();
         waypoints = new Vector3[cityWidth][];
         CreateRoads();
 
@@ -78,15 +78,21 @@ public class CityGenerator : MonoBehaviour
                             buildingPosition.z * heightFrequency_small);
                         perlinValue = Mathf.Pow(perlinValue, 6) + Mathf.Pow(perlinValue2, 6);
                         
+                        //Create Building Walls
                         int buildingHeight = Mathf.FloorToInt(Mathf.Lerp(buildingMin, buildingMax, perlinValue));
+                        CreateBuilding(buildingSize - 1, buildingSize - 1, buildingHeight, buildingPosition);
                         
-                        GameObject building = CreateBuilding(buildingSize - 1, buildingSize - 1, buildingHeight);
-                        building.transform.position = buildingPosition;
-                        building.transform.SetParent(transform);
+                        //Create Building Roofs
+                        Vector3 roofPosition = new Vector3(buildingPosition.x, buildingHeight, buildingPosition.z);
+                        CreateRoof(buildingSize - 1, buildingSize - 1, buildingHeight, roofPosition);
                         
-                        GameObject roof = CreateRoof(buildingSize - 1, buildingSize - 1, buildingHeight);
-                        roof.transform.position = new Vector3(buildingPosition.x, buildingHeight, buildingPosition.z);
-                        roof.transform.SetParent(transform);
+                        //Create Antennas
+                        if (buildingHeight >= skyScraperThreshold && Random.value < 0.1f)
+                        {
+                            Vector3 antennaPosition = new Vector3(Random.Range(1, buildingSize-1), 0, Random.Range(1, buildingSize-1));
+                            GameObject antennaInstance = Instantiate(antenna, roofPosition + antennaPosition, Quaternion.identity);
+                            antennaInstance.transform.SetParent(transform);
+                        }
                     }
                 }
             }
@@ -147,17 +153,11 @@ public class CityGenerator : MonoBehaviour
         // Assign a material to the MeshRenderer component
         groundRenderer.material = groundMaterial;
     }
-
     
     
-    private GameObject CreateBuilding(float width, float length, float height)
+    private void CreateBuilding(float width, float length, float height, Vector3 pos)
     {
-        GameObject building = new GameObject("Building");
-        MeshFilter buildingMeshFilter = building.AddComponent<MeshFilter>();
-        MeshRenderer buildingMeshRenderer = building.AddComponent<MeshRenderer>();
-
         Mesh buildingMesh = new Mesh();
-        buildingMeshFilter.mesh = buildingMesh;
 
         Vector3[] vertices = new Vector3[16]
         {
@@ -181,8 +181,7 @@ public class CityGenerator : MonoBehaviour
             new Vector3(0, height, 0),
             new Vector3(0, height, length)
         };
-
-        buildingMesh.vertices = vertices;
+        
         Vector2[] uv = new Vector2[16];
 
         // Front face
@@ -221,8 +220,7 @@ public class CityGenerator : MonoBehaviour
                 uv[i].x *= length;
             }
         }
-
-        buildingMesh.uv = uv;
+        
 
         int[] buildingTriangles = new int[]
         {
@@ -236,33 +234,30 @@ public class CityGenerator : MonoBehaviour
             13, 15, 14
         };
 
+        buildingMesh.vertices = vertices;
+        buildingMesh.uv = uv;
         buildingMesh.triangles = buildingTriangles;
         buildingMesh.RecalculateNormals();
+        
+        CombineInstance combineInstance = new CombineInstance();
+        combineInstance.mesh = buildingMesh;
+        
+        combineInstance.transform = Matrix4x4.Translate(pos);
 
         // Apply the new material if the height is below the threshold
         if (height < skyScraperThreshold)
         {
-            buildingMeshFilters_small.Add(buildingMeshFilter);
+            buildingMeshFilters_small.Add(combineInstance);
         }
         else
         {
-            buildingMeshFilters_tall.Add(buildingMeshFilter);
+            buildingMeshFilters_tall.Add(combineInstance);
         }
-
-        return building;
     }
     
-    private GameObject CreateRoof(float width, float length, float height)
+    private void CreateRoof(float width, float length, float height, Vector3 pos)
     {
-
-        // Create the roof as a separate GameObject
-        GameObject roof = new GameObject("Roof");
-        MeshFilter roofMeshFilter = roof.AddComponent<MeshFilter>();
-        roofMeshFilters.Add(roofMeshFilter);
-        MeshRenderer roofMeshRenderer = roof.AddComponent<MeshRenderer>();
-
         Mesh roofMesh = new Mesh();
-        roofMeshFilter.mesh = roofMesh;
 
         Vector3[] roofVertices = new Vector3[4]
         {
@@ -272,17 +267,12 @@ public class CityGenerator : MonoBehaviour
             new Vector3(0, 0, length)
         };
         
-        roofMesh.vertices = roofVertices;
-
         Vector2[] roofUV = new Vector2[4];
-        
-        // Roof UV mapping
+
         roofUV[0] = new Vector2(0, 0);
         roofUV[1] = new Vector2(1, 0);
         roofUV[2] = new Vector2(1, 1);
         roofUV[3] = new Vector2(0, 1);
-        
-        roofMesh.uv = roofUV;
 
         int[] roofTriangles = new int[]
         {
@@ -290,39 +280,24 @@ public class CityGenerator : MonoBehaviour
             0, 3, 2
         };
         
+        roofMesh.vertices = roofVertices;
+        roofMesh.uv = roofUV;
         roofMesh.triangles = roofTriangles;
         roofMesh.RecalculateNormals();
         
-        roofMeshRenderer.material = roofMaterial;
+        CombineInstance combineInstance = new CombineInstance();
+        combineInstance.mesh = roofMesh;
         
-
-        // Apply the new material if the height is below the threshold
-        if (height >= skyScraperThreshold && Random.value < 0.1f)
-        {
-            Vector3 antennaPosition = new Vector3(Random.Range(1, buildingSize-1), 0, Random.Range(1, buildingSize-1));
-            GameObject antennaInstance = Instantiate(antenna, roof.transform.TransformPoint(antennaPosition), Quaternion.identity);
-            antennaInstance.transform.SetParent(roof.transform);
-        }
-
-        return roof;
+        combineInstance.transform = Matrix4x4.Translate(pos);
+        roofMeshFilters.Add(combineInstance);
     }
     
     
     
-    void MergeMeshes(List<MeshFilter> meshFilters, Material material)
+    void MergeMeshes(List<CombineInstance> combineInstances, Material material)
     {
         // Create new mesh on children meshes
-        CombineInstance[] combine = new CombineInstance[meshFilters.Count];
-
-        int i = 0;
-        while (i < meshFilters.Count)
-        {
-            combine[i].mesh = meshFilters[i].sharedMesh;
-            combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
-            meshFilters[i].gameObject.SetActive(false);
-
-            i++;
-        }
+        CombineInstance[] combine = combineInstances.ToArray();
 
         // Create a new game object
         GameObject combined = new GameObject("Combined Mesh");
@@ -331,15 +306,15 @@ public class CityGenerator : MonoBehaviour
         // Add MeshFilter and MeshRenderer components
         MeshFilter meshFilter = combined.AddComponent<MeshFilter>();
         MeshRenderer meshRenderer = combined.AddComponent<MeshRenderer>();
-    
+
         // Assign the combined meshes to the new MeshFilter component
         meshFilter.mesh = new Mesh();
         meshFilter.mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
         meshFilter.mesh.CombineMeshes(combine);
         combined.SetActive(true);
-    
+
         // Assign a material to the MeshRenderer component
-        meshRenderer.material = material; 
+        meshRenderer.material = material;
     }
     
     

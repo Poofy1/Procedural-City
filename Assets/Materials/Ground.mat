@@ -2749,7 +2749,7 @@ Material:
     - _ClearCoatSpecularTint: {r: 1, g: 1, b: 1, a: 1}
     - _ClippingMaskPan: {r: 0, g: 0, b: 0, a: 0}
     - _ClothMetallicSmoothnessMapPan: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 0.4811321, g: 0.4811321, b: 0.4811321, a: 1}
+    - _Color: {r: 0.5722232, g: 0.6030616, b: 0.7264151, a: 1}
     - _CubeMapColor: {r: 1, g: 1, b: 1, a: 1}
     - _CubeMapMaskPan: {r: 0, g: 0, b: 0, a: 0}
     - _CubeMapRotation: {r: 0, g: 0, b: 0, a: 0}
@@ -2899,7 +2899,7 @@ Material:
     - _LightingAOMapsPan: {r: 0, g: 0, b: 0, a: 0}
     - _LightingDetailShadowMapsPan: {r: 0, g: 0, b: 0, a: 0}
     - _LightingForcedColor: {r: 1, g: 1, b: 1, a: 1}
-    - _LightingShadowColor: {r: 0, g: 0, b: 0, a: 1}
+    - _LightingShadowColor: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 1}
     - _LightingShadowMasksPan: {r: 0, g: 0, b: 0, a: 0}
     - _LightngForcedDirection: {r: 0, g: 0, b: 0, a: 1}
     - _MainColorAdjustTexturePan: {r: 0, g: 0, b: 0, a: 0}

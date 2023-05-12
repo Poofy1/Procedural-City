@@ -2749,7 +2749,7 @@ Material:
     - _ClearCoatSpecularTint: {r: 1, g: 1, b: 1, a: 1}
     - _ClippingMaskPan: {r: 0, g: 0, b: 0, a: 0}
     - _ClothMetallicSmoothnessMapPan: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
+    - _Color: {r: 0.084905684, g: 0.084905684, b: 0.084905684, a: 1}
     - _CubeMapColor: {r: 1, g: 1, b: 1, a: 1}
     - _CubeMapMaskPan: {r: 0, g: 0, b: 0, a: 0}
     - _CubeMapRotation: {r: 0, g: 0, b: 0, a: 0}

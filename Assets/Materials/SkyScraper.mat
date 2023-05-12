@@ -1121,7 +1121,7 @@ Material:
     - _EmissionHueShiftSpeed1: 0
     - _EmissionHueShiftSpeed2: 0
     - _EmissionHueShiftSpeed3: 0
-    - _EmissionIntensity: 1
+    - _EmissionIntensity: 3
     - _EmissionMap1UV: 0
     - _EmissionMap2UV: 0
     - _EmissionMap3UV: 0
@@ -1657,7 +1657,7 @@ Material:
     - _LightingVertexLightingEnabled: 1
     - _LightingWrappedNormalization: 0
     - _LightingWrappedWrap: 0
-    - _LitWindowProbability: 0.075
+    - _LitWindowProbability: 0.1
     - _LockTooltip: 0
     - _MainALHueShiftBand: 0
     - _MainALHueShiftCTIndex: 0
@@ -2336,11 +2336,11 @@ Material:
     - _VisibilityVRCMirrorDesktop: 1
     - _VisibilityVRCMirrorVR: 1
     - _VisibilityVRCRegular: 1
-    - _WindowAspectRatio: 0.683
+    - _WindowAspectRatio: 0.75
     - _WindowGlossiness: 0
     - _WindowReflectivity: 0.893
-    - _WindowSize: 0.64
-    - _WindowSpacing: 0.017
+    - _WindowSize: 0.75
+    - _WindowSpacing: 0.2
     - _Wriggle: 0
     - _WriggleSpeed: 0.28
     - _ZTest: 4
@@ -2918,7 +2918,7 @@ Material:
     - _LightingShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _LightingShadowMasksPan: {r: 0, g: 0, b: 0, a: 0}
     - _LightngForcedDirection: {r: 0, g: 0, b: 0, a: 1}
-    - _LitWindowColor: {r: 1, g: 0.98396224, b: 0.5990566, a: 1}
+    - _LitWindowColor: {r: 0.3537736, g: 0.98253435, b: 1, a: 1}
     - _MainColorAdjustTexturePan: {r: 0, g: 0, b: 0, a: 0}
     - _MainTexPan: {r: 0, g: 0, b: 0, a: 0}
     - _Matcap0NormalMapPan: {r: 0, g: 0, b: 0, a: 0}
@@ -3034,7 +3034,7 @@ Material:
     - _TextTimeScale: {r: 1, g: 1, b: 1, a: 1}
     - _TruchetColor: {r: 1, g: 1, b: 1, a: 1}
     - _TruchetTexPan: {r: 0, g: 0, b: 0, a: 0}
-    - _UnlitWindowColor: {r: 0.11320752, g: 0.11320752, b: 0.11320752, a: 1}
+    - _UnlitWindowColor: {r: 0, g: 0, b: 0, a: 1}
     - _VertexLocalRotationAL: {r: 0, g: 0, b: 0, a: 1}
     - _VertexLocalRotationCTALSpeed: {r: 0, g: 0, b: 0, a: 1}
     - _VertexLocalScaleALMax: {r: 0, g: 0, b: 0, a: 0}

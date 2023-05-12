@@ -2,9 +2,8 @@ Shader "Custom/WindowGridShader" {
     Properties {
         _LitWindowColor ("Lit Window Color", Color) = (1, 1, 1, 1)
         _UnlitWindowColor ("Unlit Window Color", Color) = (0, 0, 0, 1)
-        _WindowSize ("Window Size", Range(0, 1)) = 0.1
-        _WindowSpacing ("Window Spacing", Range(0, .5)) = 0.02
-        _LitWindowProbability ("Lit Window Probability", Range(0, 1)) = 0.2
+        _WindowSize ("Window Size", Range(0.25, .999)) = 0.1
+        _LitWindowProbability ("Lit Window Probability", Range(0, .25)) = 0.2
         _WindowAspectRatio ("Window Aspect Ratio", Range(0, 1)) = 0.5
         _EmissionIntensity ("Emission Intensity", Range(0, 5)) = 1.0
     }
@@ -17,7 +16,6 @@ Shader "Custom/WindowGridShader" {
         #pragma surface surf Lambert
 
         float _WindowSize;
-        float _WindowSpacing;
         float _LitWindowProbability;
         float _WindowAspectRatio;
         float4 _LitWindowColor;
@@ -36,7 +34,7 @@ Shader "Custom/WindowGridShader" {
 
         void surf (Input IN, inout SurfaceOutput o) {
             // Calculate the cell coordinates
-            float3 cellCoord = floor(IN.worldPos / (float3(_WindowSize * _WindowAspectRatio, _WindowSize, _WindowSize * _WindowAspectRatio) + _WindowSpacing));
+            float3 cellCoord = floor(IN.worldPos / (float3(_WindowSize * _WindowAspectRatio, _WindowSize, _WindowSize * _WindowAspectRatio) + .2));
 
             // Use the cell coordinates for window lighting randomness
             float windowRand = rand(cellCoord);

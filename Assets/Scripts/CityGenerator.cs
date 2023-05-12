@@ -20,6 +20,7 @@ public class CityGenerator : MonoBehaviour
     public int cityLength = 10;
     public int blockWidth = 2;
     public int blockLength = 4;
+    public int roadWidth = 1;
     public float heightFrequency = 0.01f;
     public float heightFrequency_small = 0.25f;
 
@@ -33,18 +34,15 @@ public class CityGenerator : MonoBehaviour
     private List<CombineInstance> roofMeshFilters;
 
     [Header("Car Config")] 
-    public GameObject car;
-    public int carAmount;
-    [NonSerialized] public int xMax = 0;
-    [NonSerialized] public int yMax = 0;
-    
+    public GameObject cars;
+
     [Header("Other")]
     public Vector3[][] waypoints;
 
     private void Start()
     {
         GenerateCity();
-        GenerateCars();
+        cars.SetActive(true);
     }
 
 
@@ -63,19 +61,17 @@ public class CityGenerator : MonoBehaviour
             for (int z = 0; z < cityLength; z++)
             {
                 
-                Vector3 roadPosition = new Vector3(x * (blockWidth * buildingSize) + (x * 3), 1, z * (blockLength * buildingSize) + (z * 3));
+                Vector3 roadPosition = new Vector3(x * (blockWidth * buildingSize) + (x * roadWidth), 1, z * (blockLength * buildingSize) + (z * roadWidth));
                 waypoints[x][z] = roadPosition;
                     
                 for (int block_x = 0; block_x < blockWidth; block_x++)
                 {
                     for (int block_y = 0; block_y < blockLength; block_y++)
                     {
-                        Vector3 buildingPosition = new Vector3(roadPosition.x + (block_x * buildingSize) + 2f, 0,
-                            roadPosition.z + (block_y * buildingSize) + 2f);
-                        float perlinValue = Mathf.PerlinNoise(buildingPosition.x * heightFrequency,
-                            buildingPosition.z * heightFrequency);
-                        float perlinValue2 = Mathf.PerlinNoise(buildingPosition.x * heightFrequency_small,
-                            buildingPosition.z * heightFrequency_small);
+                        Vector3 buildingPosition = new Vector3(roadPosition.x + (block_x * buildingSize) + (roadWidth/2), 0, roadPosition.z + (block_y * buildingSize) + (roadWidth/2));
+                        
+                        float perlinValue = Mathf.PerlinNoise(buildingPosition.x * heightFrequency, buildingPosition.z * heightFrequency);
+                        float perlinValue2 = Mathf.PerlinNoise(buildingPosition.x * heightFrequency_small, buildingPosition.z * heightFrequency_small);
                         perlinValue = Mathf.Pow(perlinValue, 6) + Mathf.Pow(perlinValue2, 6);
                         
                         //Create Building Walls
@@ -121,9 +117,9 @@ public class CityGenerator : MonoBehaviour
         Vector3[] vertices = new Vector3[4]
         {
             new Vector3(0, 0, 0),
-            new Vector3(cityWidth * (blockWidth * buildingSize + 3), 0, 0),
-            new Vector3(cityWidth * (blockWidth * buildingSize + 3), 0, cityLength * (blockLength * buildingSize + 3)),
-            new Vector3(0, 0, cityLength * (blockLength * buildingSize + 3))
+            new Vector3(cityWidth * (blockWidth * buildingSize + roadWidth), 0, 0),
+            new Vector3(cityWidth * (blockWidth * buildingSize + roadWidth), 0, cityLength * (blockLength * buildingSize + roadWidth)),
+            new Vector3(0, 0, cityLength * (blockLength * buildingSize + roadWidth))
         };
 
         // Define UVs for the vertices
@@ -319,26 +315,5 @@ public class CityGenerator : MonoBehaviour
     
     
     
-    public void GenerateCars()
-    {
-        GameObject carHolder = new GameObject("Cars");
-        carHolder.transform.SetParent(transform);
-
-        xMax = cityWidth-1;
-        yMax = cityLength-1;
-
-        for (int i = 0; i < carAmount; i++)
-        {
-            int x = Random.Range(1, xMax);
-            int y = Random.Range(1, yMax);
-            Vector3 carPosition = waypoints[x][y];
-            GameObject carInstance = Instantiate(car, carPosition, Quaternion.identity);
-            carInstance.transform.SetParent(carHolder.transform);
-            CarAI carAI = carInstance.GetComponent<CarAI>();
-            carAI.cityGenerator = gameObject.GetComponent<CityGenerator>();
-            carAI.x = x;
-            carAI.y = y;
-        }
-    }
     
 }

@@ -5,6 +5,7 @@ Shader "Custom/Billboard"
 	   _MainTex("Texture Image", 2D) = "white" {}
 	   _ScaleX("Scale X", Float) = 1.0
 	   _ScaleY("Scale Y", Float) = 1.0
+	   _Color("Color Tint", Color) = (1, 1, 1, 1) // New Color property
 	}
 	SubShader
 	{
@@ -23,6 +24,7 @@ Shader "Custom/Billboard"
 			uniform sampler2D _MainTex;
 			uniform float _ScaleX;
 			uniform float _ScaleY;
+			uniform float4 _Color; // New Color uniform
 
 			struct vertexInput
 			{
@@ -51,7 +53,8 @@ Shader "Custom/Billboard"
 
 			float4 frag(vertexOutput input) : COLOR
 			{
-				return tex2D(_MainTex, float2(input.tex.xy));
+				float4 texColor = tex2D(_MainTex, float2(input.tex.xy));
+				return texColor * _Color; // Applying the color tint
 			}
 
 			ENDCG

@@ -13,6 +13,9 @@ public class CarAI : MonoBehaviour
 
     private int[] x;
     private int[] y;
+    private Vector3[] target;
+    private int xOffset;
+    private int yOffset;
 
     private ParticleSystem.Particle[] particles;
 
@@ -23,6 +26,7 @@ public class CarAI : MonoBehaviour
 
         x = new int[maxParticles];
         y = new int[maxParticles];
+        target = new Vector3[maxParticles];
         
         particleSystem = GetComponent<ParticleSystem>();
         
@@ -39,13 +43,16 @@ public class CarAI : MonoBehaviour
         {
             x[i] = Random.Range(1, xMax);
             y[i] = Random.Range(1, yMax);
+            SetTarget(i);
             
             particleSystem.Emit(new ParticleSystem.EmitParams()
             {
-                position = cityGenerator.waypoints[x[i]][y[i]],
+                position = target[i],
                 velocity = Vector3.zero,
                 startLifetime = Mathf.Infinity,
             }, 1);
+
+            
         }
     }
 
@@ -60,35 +67,56 @@ public class CarAI : MonoBehaviour
         
         for (int i = 0; i < particleCount; i++)
         {
-
-            Vector3 target = cityGenerator.waypoints[x[i]][y[i]];
-
             // Move the particle towards the waypoint
-            Vector3 direction = (target - particles[i].position).normalized;
+            Vector3 direction = (target[i] - particles[i].position).normalized;
             particles[i].velocity = direction * speed;
 
             // If the particle reaches the waypoint, select a new waypoint
-            if (Vector3.Distance(particles[i].position, target) < 0.1f)
+            if (Vector3.Distance(particles[i].position, target[i]) < 0.1f)
             {
-                int rand = Random.Range(0, 4);
-                if(rand == 0 || rand == 1)
-                {
-                    if(rand == 0 && x[i] < xMax || rand == 1 && x[i] == 1)
-                        x[i]++;
-                    else
-                        x[i]--;
-                }
-                else
-                {
-                    if(rand == 2 && y[i] < yMax || rand == 3 && y[i] == 1)
-                        y[i]++;
-                    else
-                        y[i]--;
-                }
+                SetTarget(i);
             }
         }
 
         // Apply the particle changes to the particle system
         particleSystem.SetParticles(particles, particleCount);
+    }
+
+    private void SetTarget(int i)
+    {
+        int rand = Random.Range(0, 4);
+        if(rand == 0 || rand == 1)
+        {
+            if (rand == 0 && x[i] < xMax || rand == 1 && x[i] == 1)
+            {
+                x[i]++;
+                xOffset = 2;
+                yOffset = -2;
+            }
+            else
+            {
+                x[i]--;
+                xOffset = -2;
+                yOffset = 2;
+            }
+        }
+        else
+        {
+            if (rand == 2 && y[i] < yMax || rand == 3 && y[i] == 1)
+            {
+                y[i]++;
+                xOffset = 2;
+                yOffset = 2;
+            }
+            else
+            {
+                y[i]--;
+                xOffset = -2;
+                yOffset = -2;
+            }
+        }
+                
+        //Set new target
+        target[i] = cityGenerator.waypoints[x[i]][y[i]] + new Vector3(xOffset, 0, yOffset);
     }
 }

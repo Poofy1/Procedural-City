@@ -29,12 +29,14 @@ public class CityGenerator : MonoBehaviour
     public int buildingMax = 75;
     public int buildingMin = 5;
     public float skyScraperThreshold = 4;
+    public float antennaProbability; 
     private List<CombineInstance> buildingMeshFilters_small;
     private List<CombineInstance> buildingMeshFilters_tall;
     private List<CombineInstance> roofMeshFilters;
 
     [Header("Car Config")] 
-    public GameObject cars;
+    public GameObject cars1;
+    public GameObject cars2;
 
     [Header("Other")]
     public Vector3[][] waypoints;
@@ -42,7 +44,8 @@ public class CityGenerator : MonoBehaviour
     private void Start()
     {
         GenerateCity();
-        cars.SetActive(true);
+        cars1.SetActive(true);
+        cars2.SetActive(true);
     }
 
 
@@ -72,7 +75,7 @@ public class CityGenerator : MonoBehaviour
                         
                         float perlinValue = Mathf.PerlinNoise(buildingPosition.x * heightFrequency, buildingPosition.z * heightFrequency);
                         float perlinValue2 = Mathf.PerlinNoise(buildingPosition.x * heightFrequency_small, buildingPosition.z * heightFrequency_small);
-                        perlinValue = Mathf.Pow(perlinValue, 6) + Mathf.Pow(perlinValue2, 6);
+                        perlinValue = (Mathf.Pow(perlinValue, 2) / 2) + Mathf.Pow(perlinValue2, 6);
                         
                         //Create Building Walls
                         int buildingHeight = Mathf.FloorToInt(Mathf.Lerp(buildingMin, buildingMax, perlinValue));
@@ -83,7 +86,7 @@ public class CityGenerator : MonoBehaviour
                         CreateRoof(buildingSize - 1, buildingSize - 1, buildingHeight, roofPosition);
                         
                         //Create Antennas
-                        if (buildingHeight >= skyScraperThreshold && Random.value < 0.1f)
+                        if (buildingHeight >= skyScraperThreshold && Random.value < antennaProbability)
                         {
                             Vector3 antennaPosition = new Vector3(Random.Range(1, buildingSize-1), 0, Random.Range(1, buildingSize-1));
                             GameObject antennaInstance = Instantiate(antenna, roofPosition + antennaPosition, Quaternion.identity);

@@ -75,7 +75,8 @@ public class CityGenerator : MonoBehaviour
                         
                         float perlinValue = Mathf.PerlinNoise(buildingPosition.x * heightFrequency, buildingPosition.z * heightFrequency);
                         float perlinValue2 = Mathf.PerlinNoise(buildingPosition.x * heightFrequency_small, buildingPosition.z * heightFrequency_small);
-                        perlinValue = (Mathf.Pow(perlinValue, 2) / 2) + Mathf.Pow(perlinValue2, 6);
+                        float perlinValue3 = Mathf.PerlinNoise(buildingPosition.x * heightFrequency_small * .25f, buildingPosition.z * heightFrequency_small * .25f);
+                        perlinValue = (Mathf.Pow(perlinValue, 2) / 2) + Mathf.Pow(perlinValue2, 6) - Mathf.Pow(perlinValue3, 3);
                         
                         //Create Building Walls
                         int buildingHeight = Mathf.FloorToInt(Mathf.Lerp(buildingMin, buildingMax, perlinValue));

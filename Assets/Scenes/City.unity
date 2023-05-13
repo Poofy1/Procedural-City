@@ -10106,20 +10106,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca3c18cd1f3e8648af156bc5a2d5b5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  antenna: {fileID: 5863311207573383693, guid: 27817b7eba1757a45866c72535d7dfca, type: 3}
+  antenna: {fileID: 8767429262925433106, guid: 27817b7eba1757a45866c72535d7dfca, type: 3}
   groundMaterial: {fileID: 2100000, guid: d057f347cfb4c1646808c252c8c3dab1, type: 2}
   buildingMaterial: {fileID: 2100000, guid: 8cbbba6795692a54787054684b9b6974, type: 2}
   lowHeightBuildingMaterial: {fileID: 2100000, guid: fcf7576a876475d4991213bc9a3dda2a, type: 2}
-  roofMaterial: {fileID: 2100000, guid: 3bb2b484de4b1884eb076e67fed1731b, type: 2}
+  roofMaterial: {fileID: 2100000, guid: d057f347cfb4c1646808c252c8c3dab1, type: 2}
   cityWidth: 50
   cityLength: 50
   blockWidth: 2
   blockLength: 8
   roadWidth: 8
   heightFrequency: 0.01
-  heightFrequency_small: 0.25
+  heightFrequency_small: 0.35
   buildingSize: 10
-  buildingMax: 75
+  buildingMax: 100
   buildingMin: 5
   skyScraperThreshold: 25
   antennaProbability: 0.05

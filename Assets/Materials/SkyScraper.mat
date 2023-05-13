@@ -2122,7 +2122,7 @@ Material:
     - _SkinThicknessMapInvert: 0
     - _SkinThicknessMapUV: 0
     - _SkinThicknessPower: 1
-    - _Smoothness: 0.7
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _Specular: 0
     - _Specular2ndLayer: 0

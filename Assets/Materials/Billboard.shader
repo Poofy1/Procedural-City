@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
 Shader "Custom/Billboard"
 {
     Properties
@@ -7,6 +9,7 @@ Shader "Custom/Billboard"
         _ScaleY("Scale Y", Float) = 1.0
         _Color("Color Tint", Color) = (1, 1, 1, 1) // New Color property
         _EmissionIntensity("Emission Intensity", Range(0, 5)) = 1.0 // Emission Intensity slider
+        _FlickerSpeed("Flicker Speed", Range(0, 5)) = 1.0 // Flicker Speed slider
     }
     SubShader
     {
@@ -27,6 +30,7 @@ Shader "Custom/Billboard"
             uniform float _ScaleY;
             uniform float4 _Color; // New Color uniform
             uniform float _EmissionIntensity; // Emission Intensity uniform
+            uniform float _FlickerSpeed; // Flicker Speed uniform
 
             struct vertexInput
             {
@@ -37,6 +41,7 @@ Shader "Custom/Billboard"
             {
                 float4 pos : SV_POSITION;
                 float4 tex : TEXCOORD0;
+                float3 worldPos : TEXCOORD1; // Pass the world position to the fragment shader
             };
 
             vertexOutput vert(vertexInput input)
@@ -49,14 +54,16 @@ Shader "Custom/Billboard"
                 * float4(_ScaleX, _ScaleY, 1.0, 1.0));
 
                 output.tex = input.tex;
+                output.worldPos = mul(unity_ObjectToWorld, input.vertex).xyz; // Convert the object position to world position
 
                 return output;
             }
 
             float4 frag(vertexOutput input) : COLOR
             {
+                float flicker = (sin((_Time.y + input.worldPos.x) * _FlickerSpeed) + 1.0) / 2.0; // Flickering effect with world position offset
                 float4 texColor = tex2D(_MainTex, float2(input.tex.xy));
-                return texColor * _Color * _EmissionIntensity; // Applying the color tint and emission intensity
+                return texColor * _Color * flicker * _EmissionIntensity;
             }
 
             ENDCG

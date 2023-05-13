@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 9cd45176b28a98d45b6a5eec904ba657, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -155,8 +155,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cityGenerator: {fileID: 1587029972}
-  maxParticles: 10000
-  speed: 20
+  maxParticles: 20000
+  speed: 15
 --- !u!199 &306589407
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -9810,8 +9810,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cityGenerator: {fileID: 1587029972}
-  maxParticles: 10000
-  speed: 20
+  maxParticles: 20000
+  speed: 15
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -9841,7 +9841,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 0.8392157, g: 1, b: 0.98100483, a: 1}
-  m_Intensity: 0.5
+  m_Intensity: 0.35
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -9961,7 +9961,7 @@ MonoBehaviour:
     m_Bits: 1
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
-  antialiasingMode: 0
+  antialiasingMode: 2
   temporalAntialiasing:
     jitterSpread: 0.75
     sharpness: 0.25
@@ -10106,10 +10106,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca3c18cd1f3e8648af156bc5a2d5b5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  antenna: {fileID: 3394735961448523324, guid: 89c7abf5108a6c94e9b49c51e6cca635, type: 3}
+  antenna: {fileID: 5863311207573383693, guid: 27817b7eba1757a45866c72535d7dfca, type: 3}
   groundMaterial: {fileID: 2100000, guid: d057f347cfb4c1646808c252c8c3dab1, type: 2}
   buildingMaterial: {fileID: 2100000, guid: 8cbbba6795692a54787054684b9b6974, type: 2}
-  lowHeightBuildingMaterial: {fileID: 2100000, guid: 02e1ad946fd079543bcd76b0e1c9a4d8, type: 2}
+  lowHeightBuildingMaterial: {fileID: 2100000, guid: fcf7576a876475d4991213bc9a3dda2a, type: 2}
   roofMaterial: {fileID: 2100000, guid: 3bb2b484de4b1884eb076e67fed1731b, type: 2}
   cityWidth: 50
   cityLength: 50
@@ -10117,7 +10117,7 @@ MonoBehaviour:
   blockLength: 8
   roadWidth: 8
   heightFrequency: 0.01
-  heightFrequency_small: 0
+  heightFrequency_small: 0.25
   buildingSize: 10
   buildingMax: 75
   buildingMin: 5

@@ -10121,7 +10121,7 @@ MonoBehaviour:
   buildingSize: 10
   buildingMax: 75
   buildingMin: 5
-  skyScraperThreshold: 20
+  skyScraperThreshold: 25
   antennaProbability: 0.05
   cars1: {fileID: 649597251}
   cars2: {fileID: 306589405}

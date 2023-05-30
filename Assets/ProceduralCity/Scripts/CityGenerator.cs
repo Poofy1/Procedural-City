@@ -57,6 +57,10 @@ public class CityGenerator : MonoBehaviour
         roofMeshFilters = new List<CombineInstance>();
         waypoints = new Vector3[cityWidth][];
         CreateRoads();
+        
+        // Create a new GameObject to hold all antennas
+        GameObject antennaParent = new GameObject("Antennas");
+        antennaParent.transform.SetParent(transform);
 
         for (int x = 0; x < cityWidth; x++)
         {
@@ -91,7 +95,7 @@ public class CityGenerator : MonoBehaviour
                         {
                             Vector3 antennaPosition = new Vector3(Random.Range(1, buildingSize-1), 0, Random.Range(1, buildingSize-1));
                             GameObject antennaInstance = Instantiate(antenna, roofPosition + antennaPosition, Quaternion.identity);
-                            antennaInstance.transform.SetParent(transform);
+                            antennaInstance.transform.SetParent(antennaParent.transform);
                         }
                     }
                 }
